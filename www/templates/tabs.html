@@ -1,0 +1,17 @@
+<ion-tabs class="tabs-icon-top tabs-positive">
+
+    <ion-tab title="סדרות" icon="ion-ios-film" href="#/tab/series">
+        <ion-nav-view name="series-tab"></ion-nav-view>
+    </ion-tab>
+
+    <ion-tab title="סרטים" icon="ion-film-marker" href="#/tab/movies">
+        <ion-nav-view name="movies-tab"></ion-nav-view>
+    </ion-tab>
+
+    <ion-tab title="אחר" icon="ion-help-buoy" ui-sref="tabs.other">
+        <ion-nav-view name="other-tab"></ion-nav-view>
+    </ion-tab>
+
+    <ion-tab ng-controller="mainCtrl" title="איפוס" icon="ion-trash-a" ng-click="clearAll()"></ion-tab>
+
+</ion-tabs>
