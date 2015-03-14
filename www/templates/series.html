@@ -1,14 +1,28 @@
 <ion-view view-title="סדרות">
     <ion-content class="padding">
-        <div class="buttons">
+        <div class="buttons padding">
             <button class="button button-clear button-dark icon ion-navicon"></button>
-            <button class="button button-clear button-dark icon ion-plus-circled"></button>
-            <button class="button button-clear button-dark icon ion-minus-circled"></button>
+            <button class="button button-clear button-dark icon ion-plus-circled" ng-click="addItem('series', {'name': 'סדרה כלשהי', 'season': '5', 'episode': '2'})"></button>
         </div>
-        <p>
-            סדרות...
-        </p>
-        <div class="buttons">
+        <div class="padding">
+            <ion-list show-reorder="false">
+                <ion-item ng-repeat="item in catagory['series']" item="item" class="item-remove-animate">
+                    <b><u>{{ item.name }}</u></b><br/>עונה {{ item.season }}<br/>פרק {{ item.episode }}
+                    <ion-option-button class="button-assertive" ng-click="removeItem('series', item._id.$oid)">
+                        מחק סדרה
+                    </ion-option-button>
+                    <ion-option-button class="button-calm">
+                        ערוך סדרה
+                    </ion-option-button>
+                    <ion-option-button class="button-balanced">
+                        צפיתי בפרק
+                    </ion-option-button>
+                    <ion-reorder-button class="ion-navicon">
+                    </ion-reorder-button>
+                </ion-item>
+            </ion-list>
+        </div>
+        <div class="buttons padding">
             <button class="button icon-right ion-ios-trash-outline" ng-click="clearCatagory('series')">מחק את כל הסדרות</button>
         </div>
     </ion-content>

@@ -1,27 +1,29 @@
 /**
  * Created by Gil on 07/03/2015.
  */
-angular.module('starter').controller('mainCtrl', function($scope, $localstorage, $ionicPopup) {
+angular.module('starter').controller('mainCtrl', function($scope, $localstorage, $ionicPopup, Restangular) {
+    var allCollections = Restangular.all('collections');
     $scope.catagoryNames = ['series', 'movies', 'other'];
     $scope.catagory = [];
-    var initCatagories = function(){
-        angular.forEach($scope.catagoryNames, function(value){
-            if (!$localstorage.isKeyDefined(value)){
-                $localstorage.setObject(value, []);
-            }
-            $scope.catagory[value] = $localstorage.getObject(value);
-        });
+
+    var syncCollection = function(catagoryName){
+        $scope.catagory[catagoryName] = allCollections.all(catagoryName).getList().$object;
     };
-    initCatagories();
+
+    angular.forEach($scope.catagoryNames, function(catagoryName){
+        syncCollection(catagoryName);
+    });
 
     $scope.addItem = function(catagoryName, item){
-        $scope.catagory[catagoryName].push(item);
-        $localstorage.setObject(catagoryName, $scope.catagory[catagoryName]);
+        $scope.catagory[catagoryName].post(item).then(function(){
+            syncCollection(catagoryName);
+        });
     };
 
-    $scope.removeItem = function(catagoryName, index){
-        $scope.catagory[catagoryName].splice(index, 1);
-        $localstorage.setObject(catagoryName, $scope.catagory[catagoryName]);
+    $scope.removeItem = function(catagoryName, itemId){
+        $scope.catagory[catagoryName].one(itemId).remove().then(function(){
+            syncCollection(catagoryName);
+        });
     };
 
     $scope.clearAll = function(){
